@@ -50,4 +50,52 @@ document.getElementById('checkout-form')?.addEventListener('submit', function(e)
 
     // Redirect to the homepage or a confirmation page
     window.location.href = "index.html";
+    // Import mongoose
+const mongoose = require('mongoose');
+
+// Set up the MongoDB connection
+mongoose.connect('mongodb://localhost:27017/myDatabase', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Failed to connect to MongoDB:', err));
+
+// Example of defining a Schema and Model
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema({
+  name: String,
+  email: String,
+  age: Number
+});
+
+const User = mongoose.model('User', userSchema);
+
+// Example of creating a new user
+const newUser = new User({
+  name: 'John Doe',
+  email: 'johndoe@example.com',
+  age: 30
+});
+
+newUser.save()
+  .then(() => console.log('User saved'))
+  .catch((err) => console.error('Error saving user:', err));
+const user = new User({
+  name: 'Jane Doe',
+  email: 'janedoe@example.com',
+  age: 25
+});
+
+user.save()
+  .then(() => console.log('User created'))
+  .catch((err) => console.error('Error:', err));
+User.find({ age: { $gt: 20 } })
+  .then(users => console.log(users))
+  .catch((err) => console.error('Error:', err));
+User.updateOne({ email: 'janedoe@example.com' }, { $set: { age: 26 } })
+  .then(() => console.log('User updated'))
+  .catch((err) => console.error('Error:', err));
+
 });
